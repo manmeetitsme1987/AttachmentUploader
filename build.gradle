@@ -4,6 +4,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
+        classpath ("io.spring.gradle:dependency-management-plugin:0.5.4.RELEASE");
     }
 }
 
@@ -19,10 +20,15 @@ jar {
 
 repositories {
     mavenCentral()
+    flatDir {
+       dirs 'lib'
+   }
 }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+
 
 dependencies {
     // tag::jetty[]
@@ -34,6 +40,14 @@ dependencies {
     // tag::actuator[]
     compile("org.springframework.boot:spring-boot-starter-actuator")
     // end::actuator[]
+    
+    compile("org.springframework.cloud:spring-cloud-aws-context:1.0.2.RELEASE");
+	compile("commons-io:commons-io:2.4");
+	compile("com.force.api:force-partner-api:34.0.0");
+	compile("com.force.api:force-wsc:38.0.0");
+	compile("com.force.api:force-metadata-api:38.0.0");
+	compile("org.springframework:spring-test:2.5");
+	compile name: 'enterprise'
     testCompile("junit:junit")
 }
 
