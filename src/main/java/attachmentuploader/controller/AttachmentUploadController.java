@@ -45,6 +45,7 @@ public class AttachmentUploadController {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			return "Error from uploadAttachment! " + e.getMessage();
 		}
 		return "Greetings from uploadAttachment!";
     }
