@@ -30,7 +30,7 @@ public class AttachmentUploadController {
     public String uploadSalesforceAttachment(@RequestBody List<AttachmentRequest> attachmentReqeusts) {
 		try{
 			EnterpriseConnection connection = salesforceService.createConnectionToSalesforceOrg();
-			System.out.println(connection + "==== connection");
+			System.out.println(connection + "==== connection ====");
 			if(connection != null){
 				List<Attachment> listAttachments = salesforceService.fetchAttachments(connection);
 				System.out.println(listAttachments.size() + "==== listAttachments.size()");
@@ -45,6 +45,7 @@ public class AttachmentUploadController {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			return "Error from uploadAttachment! " + e.getMessage();
 		}
 		return "Greetings from uploadAttachment!";
     }
