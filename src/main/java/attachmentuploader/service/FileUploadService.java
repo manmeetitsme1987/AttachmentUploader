@@ -37,20 +37,15 @@ public class FileUploadService {
 	@Value("${cloud.aws.credentials.secretKeyBreak2}")
 	private String secretKeyBreak2;
 	
-	public FileName uploadFile(MultipartFile fileUploadReq){
+	public FileName uploadFile(MultipartFile fileUploadReq) throws IOException{
 		PutObjectResult putObjectResult = null;
 		String fileName = null;
-		try {
-			fileName = fileUploadReq.getOriginalFilename();
-			putObjectResult = upload(fileUploadReq.getInputStream(), fileUploadReq.getOriginalFilename());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		fileName = fileUploadReq.getOriginalFilename();
+		putObjectResult = upload(fileUploadReq.getInputStream(), fileUploadReq.getOriginalFilename());
 		FileName fileNameObj = new FileName();
 		if(putObjectResult != null){
 			fileNameObj.setFileName(fileName);
 		}
-		
 		fileNameObj.setFileName(fileName);
 		return fileNameObj;
 

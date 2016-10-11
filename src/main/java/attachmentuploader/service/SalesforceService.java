@@ -43,7 +43,7 @@ public class SalesforceService {
 		List<Attachment> listAttachments = new ArrayList<Attachment>();
 		try{
 			QueryResult describeGlobalResult = 
-					partnercon.query("select Id, Name, Body, ParentId, BodyLength, ContentType, Description from Attachment where id = '00PM0000004iQ9UMAU'");
+					partnercon.query("select Id, Name, Body, ParentId, BodyLength, ContentType, Description from Attachment where id = '00PM0000004ozO1MAI'");
 			System.out.println(describeGlobalResult.getRecords().length);
 	        boolean done = false;
         	
