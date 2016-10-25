@@ -31,14 +31,16 @@ public class AttachmentUploadController {
 		try{
 			EnterpriseConnection connection = salesforceService.createConnectionToSalesforceOrg();
 			if(connection != null){
-				List<Attachment> listAttachments = salesforceService.fetchAttachments(connection);
-				Attachment attach = listAttachments.get(0);
-				MultipartFile result = new MockMultipartFile(
-											attach.getName(),
-											attach.getName(), 
-											attach.getContentType(), 
-											attach.getBody());
-				fileUploadService.uploadFile(result);
+				List<Attachment> listAttachments = salesforceService.fetchAttachments(connection, attachmentReqeusts);
+				//Attachment attach = listAttachments.get(0);
+				for(Attachment attach : listAttachments){
+					MultipartFile result = new MockMultipartFile(
+												attach.getName(),
+												attach.getName(), 
+												attach.getContentType(), 
+												attach.getBody());
+					fileUploadService.uploadFile(result, attach.getParentId());
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();

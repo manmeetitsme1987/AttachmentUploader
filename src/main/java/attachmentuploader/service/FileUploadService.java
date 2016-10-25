@@ -37,11 +37,11 @@ public class FileUploadService {
 	@Value("${cloud.aws.credentials.secretKeyBreak2}")
 	private String secretKeyBreak2;
 	
-	public FileName uploadFile(MultipartFile fileUploadReq) throws IOException{
+	public FileName uploadFile(MultipartFile fileUploadReq, String attachParentId) throws IOException{
 		PutObjectResult putObjectResult = null;
 		String fileName = null;
 		fileName = fileUploadReq.getOriginalFilename();
-		putObjectResult = upload(fileUploadReq.getInputStream(), fileUploadReq.getOriginalFilename());
+		putObjectResult = upload(fileUploadReq.getInputStream(), attachParentId + "/" +fileUploadReq.getOriginalFilename());
 		FileName fileNameObj = new FileName();
 		if(putObjectResult != null){
 			fileNameObj.setFileName(fileName);
@@ -55,8 +55,8 @@ public class FileUploadService {
 	private PutObjectResult upload(InputStream inputStream, String uploadKey) {
 		String accessKey = accessKeyBreak1+accessKeyBreak2;
 		String secretKey = secretKeyBreak1+secretKeyBreak2;
-		System.out.println("===key==" + accessKey + "====secretKey===" + secretKey);
-		amazonS3Client = new AmazonS3Client(new BasicAWSCredentials(accessKey,secretKey));
+		System.out.println("===key==" + accessKey.replaceAll("xxx", "") + "====secretKey===" + secretKey.replaceAll("xxx", ""));
+		amazonS3Client = new AmazonS3Client(new BasicAWSCredentials(accessKey.replaceAll("xxx", ""),secretKey.replaceAll("xxx", "")));
 		PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, uploadKey, inputStream, new ObjectMetadata());
 		putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
 		System.out.println("===putObjectRequest.getBucketName()==" + putObjectRequest.getBucketName());
