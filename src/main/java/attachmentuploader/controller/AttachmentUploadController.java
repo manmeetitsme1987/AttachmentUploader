@@ -50,7 +50,7 @@ public class AttachmentUploadController {
     }
 	
 	@RequestMapping(value="/testService", method=RequestMethod.GET)
-	public String testService(@RequestBody String text) {
+	public String testService() {
 		try{
 			return "Successful call";
 		}catch(Exception e){
