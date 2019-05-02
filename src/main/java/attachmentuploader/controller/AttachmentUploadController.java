@@ -48,4 +48,15 @@ public class AttachmentUploadController {
 		}
 		return "Greetings from uploadAttachment!";
     }
+	
+	@RequestMapping(value="/testService", method=RequestMethod.GET)
+	public String testService(@RequestBody String text) {
+		try{
+			return "Successful call";
+		}catch(Exception e){
+			e.printStackTrace();
+			
+		}
+		return "Congrats";
+	}
 }
