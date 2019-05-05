@@ -51,6 +51,10 @@ dependencies {
 	compile("com.force.api:force-wsc:38.0.0");
 	compile("com.force.api:force-metadata-api:38.0.0");
 	compile("org.springframework:spring-test:2.5");
+	compile("org.apache.poi:poi:4.1.0");
+	compile("org.apache.poi:poi-ooxml:4.1.0");
+	compile("javax.ws.rs:javax.ws.rs-api:2.0");
+
 	compile name: 'enterprise'
     testCompile("junit:junit")
 }
