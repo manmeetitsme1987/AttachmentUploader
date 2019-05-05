@@ -73,6 +73,7 @@ public class AttachmentUploadController {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)  
 	public FileWrapper uploadExcelFile(@RequestParam("file") MultipartFile file) {
 		try{
+			System.out.println(file.getContentType() + "====" + file.getOriginalFilename() + "===" + file.getSize() + "===" + file.isEmpty());
 			if (!file.isEmpty()) {
 				FileWrapper wrapperObj = excelFileReader.parseExcelFile(file);
                 return wrapperObj;
