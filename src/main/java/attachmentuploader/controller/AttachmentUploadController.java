@@ -36,9 +36,9 @@ public class AttachmentUploadController {
 	private ExcelFileReader excelFileReader;
 	
 	@RequestMapping(value="/uploadAttachment", method=RequestMethod.POST)
-    public String uploadSalesforceAttachment(@RequestBody List<AttachmentRequest> attachmentReqeusts) {
+    public FileWrapper uploadSalesforceAttachment(@RequestBody AttachmentRequest attachmentReqeusts) {
 		try{
-			EnterpriseConnection connection = salesforceService.createConnectionToSalesforceOrg();
+			EnterpriseConnection connection = salesforceService.createConnectionToSalesforceOrg(attachmentReqeusts);
 			if(connection != null){
 				List<Attachment> listAttachments = salesforceService.fetchAttachments(connection, attachmentReqeusts);
 				//Attachment attach = listAttachments.get(0);
@@ -48,14 +48,16 @@ public class AttachmentUploadController {
 												attach.getName(), 
 												attach.getContentType(), 
 												attach.getBody());
-					fileUploadService.uploadFile(result, attach.getParentId());
+					//fileUploadService.uploadFile(result, attach.getParentId());
+					FileWrapper wrapperObj = excelFileReader.parseExcelFile(result);
+					return wrapperObj;
 				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			return "Error from uploadAttachment! " + e.getMessage();
+			//return "Error from uploadAttachment! " + e.getMessage();
 		}
-		return "Greetings from uploadAttachment!";
+		return null;
     }
 	
 	@RequestMapping(value="/testService", method=RequestMethod.GET)

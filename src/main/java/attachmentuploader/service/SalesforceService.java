@@ -21,15 +21,15 @@ import attachmentuploader.model.AttachmentRequest;
 @Service
 public class SalesforceService {
 	
-	public  EnterpriseConnection createConnectionToSalesforceOrg() throws NumberFormatException, IOException, URISyntaxException{
+	public  EnterpriseConnection createConnectionToSalesforceOrg(AttachmentRequest attachmentReqeusts) throws NumberFormatException, IOException, URISyntaxException{
 		//Create a new connectionconfig to your Salesforce Org
 	    ConnectorConfig sfconfig = new ConnectorConfig();
 	    //Use your salesforce username = email
-	    sfconfig.setUsername("manmeetitsme1987@gmail.com.svmx");
+	    sfconfig.setUsername(attachmentReqeusts.getSalesforceUsername());
 	    //Use your saleforce password with your security token look like: passwordjeIzBAQKkR6FBW8bw5HbVkkkk
-	    sfconfig.setPassword("qwerqwer3G6ucTm0GkLYsCi08XxTUNJHR");
-	    sfconfig.setAuthEndpoint("https://test.salesforce.com/services/Soap/c/34.0");
-	    sfconfig.setServiceEndpoint("https://test.salesforce.com/services/Soap/c/34.0");
+	    sfconfig.setPassword(attachmentReqeusts.getSalesforcePassword()+""+attachmentReqeusts.getSalesforceSecurityToken());
+	    sfconfig.setAuthEndpoint(attachmentReqeusts.getSalesforceAuthEndPoint());
+	    sfconfig.setServiceEndpoint(attachmentReqeusts.getSalesforceServiceEndPoint());
 	    
 	    EnterpriseConnection partnercon = null;
 	    try {
@@ -43,12 +43,13 @@ public class SalesforceService {
 	    return partnercon;
 	}
 	
-	public  List<Attachment> fetchAttachments(EnterpriseConnection partnercon, List<AttachmentRequest> attachmentReqeusts){
+	public  List<Attachment> fetchAttachments(EnterpriseConnection partnercon, AttachmentRequest attachmentReqeust){
 		List<Attachment> listAttachments = new ArrayList<Attachment>();
 		try{
 			String query = "select Id, Name, Body, ParentId, BodyLength, ContentType, "+
 							" Description from Attachment ";
 			
+			/*
 			String attachmentIds = "";
 			for(AttachmentRequest reqObj : attachmentReqeusts){
 	            if(attachmentIds.equals("")){
@@ -57,7 +58,9 @@ public class SalesforceService {
 	            	attachmentIds += ",'" + reqObj.getAttachmentId() + "'";
 	            }
 	        }
-			query += " where id in (" + attachmentIds + ")";
+	        */
+			String attachmentIds = "'" + attachmentReqeust.getAttachmentId() + "'";;
+			query += " where id in (" + attachmentIds + ") limit 1";
 			QueryResult describeGlobalResult = partnercon.query(query);
 			System.out.println("Records length : =" + describeGlobalResult.getRecords().length);
 	        boolean done = false;
